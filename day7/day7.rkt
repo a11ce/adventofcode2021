@@ -28,10 +28,12 @@
 
 
 (minimize-fuel fuel-needed-p1 init-crabs)
-#|
-(map (lambda (p) (fuel-needed init-crabs p))
-     (stream->list (in-range 0 1000)))|#
 
+; this is also fast enough lol
+#|
+(apply min (map (lambda (p) (fuel-needed-p1 init-crabs p))
+                (sequence->list (in-range (apply max init-crabs)))))
+|#
 
 (define (fuel-needed-p2 crabs point)
   (apply + (map (lambda (c)
