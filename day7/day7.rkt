@@ -11,6 +11,8 @@
                   (abs (- c point)))
                 crabs)))
 
+; i was preparing to use gradient descent if this was too slow
+; but it wasn't
 (define (minimize-fuel fuel-needed crabs)
   (define (loop cur-test)
     (define cur-f (fuel-needed crabs cur-test)) 
@@ -34,6 +36,7 @@
 (define (fuel-needed-p2 crabs point)
   (apply + (map (lambda (c)
                   (define n (abs (- c point)))
+                  ; triangular numbers
                   (/ (* n (add1 n)) 2))
                 crabs)))
 
