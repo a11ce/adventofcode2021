@@ -35,6 +35,12 @@
   (array-set! arr (list->vector pos)
               (+ v (array-ref arr (list->vector pos)))))
 
+(define (pos-seq p1 p2)
+  (cond
+    [(= p1 p2) (in-inclusive-range p1 +inf.0 0)]
+    [(> p1 p2) (in-inclusive-range p1 p2 -1)]
+    [(< p1 p2) (in-inclusive-range p1 p2 1)]))
+    
 (define (do-line! l board)
   ;(displayln l)
   (let ([x1 (first (first l))]
@@ -42,24 +48,8 @@
         [x2 (first (second l))]
         [y2 (second (second l))])
 
-    ; TODO there has to be a better way to do this
-    (define x-seq (if (= x1 x2)
-                      (make-list (add1 (abs (- y1 y2)))
-                                 x1)
-                      (in-inclusive-range x1 x2
-                                          (if (> x1 x2)
-                                              -1
-                                              1))))
-    (define y-seq (if (= y1 y2)
-                      (make-list (add1 (abs (- x1 x2)))
-                                 y1)
-                      (in-inclusive-range y1 y2
-                                          (if (> y1 y2)
-                                              -1
-                                              1))))
-
-    (for [(idx x-seq)
-          (idy y-seq)]
+    (for [(idx (pos-seq x1 x2))
+          (idy (pos-seq y1 y2))]
   
       (array-add! board (list idx idy) 1))))
 
